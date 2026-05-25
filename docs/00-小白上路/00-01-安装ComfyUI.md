@@ -1,5 +1,9 @@
 # 安装 ComfyUI —— 每条命令都是做什么的
 
+> 📌 **如果你已经安装了 ComfyUI**：打开终端执行 `ls ~/workspace/ComfyUI/main.py`，如果能看到文件，说明已安装。请跳到下一章[下载第一个模型](00-03-下载第一个模型并首次生成.md)。
+>
+> 📌 **检查是否跑得起来**：`cd ~/workspace/ComfyUI && python main.py`，能出现 `Prompt server running on: http://0.0.0.0:8188` 就行。
+
 这是本书最关键的步骤。跟着我一步一步来，**每完成一步，停下来看看终端里发生了什么**。
 
 ---
@@ -72,6 +76,14 @@ python3 -m venv venv
 执行完后，`ComfyUI/` 目录下会出现一个 `venv/` 文件夹，里面装了一个独立的 Python 副本。
 
 > ⚠️ **macOS 你可能遇到的情况**：如果你用 Homebrew 装的 Python，这步会正常工作。如果你用的是 Conda（`/opt/anaconda3`），虚拟环境会基于 Conda 的 Python 版本创建。
+>
+> 💡 **Conda 用户专属提示**：如果你习惯用 conda 环境，可以跳过 venv，直接用：
+> ```bash
+> # 创建并激活 conda 环境
+> conda create -n comfyui python=3.11
+> conda activate comfyui
+> ```
+> 后续所有 `pip install` 和 `python main.py` 在 conda 环境下执行即可。用 `which python` 确认当前使用的是 conda 路径而不是系统 Python。
 
 ### 第 6 步：激活虚拟环境
 
