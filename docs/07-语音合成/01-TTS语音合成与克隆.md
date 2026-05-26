@@ -36,7 +36,7 @@
 
 ```bash
 cd ~/workspace/ComfyUI/custom_nodes/
-git clone https://gitclone.com/github.com/AIFSH/ComfyUI-ChatTTS-OpenVoice.git
+git clone https://gitclone.com/github.com/AIFSH/ComfyUI-ChatTTS.git
 
 # 国内 pip 镜像
 pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
@@ -309,7 +309,7 @@ ffmpeg -i your_video.mp4 -ss 00:00:05 -t 10 -vn -acodec pcm_s16le -ar 44100 refe
 | 🔴 **Load Audio 找不到文件** | 文件路径包含中文或特殊字符 | 放到简单路径如 `~/Downloads/ref.wav` |
 | 🔴 **克隆的声音有"金属感"** | 参考音频太短或压缩过度 | 换 5-10 秒无损 WAV 参考 |
 | 🔴 **生成速度很慢** | 文本太长或 CPU 模式运行 | 分短文本或确认 ComfyUI 使用了 GPU/MPS |
-| 🔴 **<laugh/> 等标签没生效** | ChatTTS 版本较旧 | 更新 ComfyUI-ChatTTS-OpenVoice 插件 |
+| | 🔴 **<laugh/> 等标签没生效** | ChatTTS 版本较旧 | 更新 ComfyUI-ChatTTS 插件 |
 | 🔴 **ComfyUI-ChatTTS 安装报 pip 依赖错误** | 缺少编译工具 | macOS: `xcode-select --install` |
 
 ---
@@ -330,7 +330,7 @@ ffmpeg -i your_video.mp4 -ss 00:00:05 -t 10 -vn -acodec pcm_s16le -ar 44100 refe
 
 在点击 Queue Prompt 前确认：
 
-- [ ] ComfyUI-ChatTTS-OpenVoice 已安装并重启
+- [ ] ComfyUI-ChatTTS 已安装并重启
 - [ ] ChatTTSNode 不是红色（模型已成功加载）
 - [ ] `text` 已填写，内容正确
 - [ ] 如果用语音克隆：Load Audio 已连接到了 ChatTTSNode.ref_audio

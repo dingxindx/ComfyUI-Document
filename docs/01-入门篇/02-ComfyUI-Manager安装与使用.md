@@ -115,6 +115,6 @@ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 | ControlNet | `comfyui_controlnet_aux` | 姿态控制必须 |
 | IP-Adapter | `ComfyUI_IPAdapter_plus` | 风格迁移 |
 | LTX 视频 | `ComfyUI-LTXVideo` | 视频生成 |
-| Wan 视频 | `ComfyUI-Wan-Superresolution` | Wan 视频 |
-| TTS 语音 | `ComfyUI-ChatTTS-OpenVoice` | 语音合成 |
+| | Wan 视频 | `ComfyUI-WanVideoWrapper（选装，含 FlashVSR 超分）` | Wan 视频（内置节点已够基础使用） |
+| | TTS 语音 | `ComfyUI-ChatTTS` | 语音合成 / 语音克隆 |
 | GGUF 量化 | `ComfyUI-GGUF` | 低显存优化 |
