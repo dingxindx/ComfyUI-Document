@@ -46,6 +46,11 @@ git clone https://github.com/comfyanonymous/ComfyUI.git
 git clone https://gitclone.com/github.com/comfyanonymous/ComfyUI.git
 ```
 
+> ⚠️ **注意**：`gitclone.com` 镜像已不稳定（有时返回 502），如果 clone 失败，建议换用：
+> 1. 代理/VPN（最稳定）
+> 2. Gitee 镜像站搜索 ComfyUI（国内搬运）
+> 3. 使用 方案 C 的 comfy-cli 安装（自动处理网络问题）
+
 > ✅ **验证**：执行完后，输入 `ls` 看看有没有出现 `ComfyUI` 文件夹。
 
 ### 第 4 步：进入 ComfyUI 目录
