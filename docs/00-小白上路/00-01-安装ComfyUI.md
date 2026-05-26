@@ -1,8 +1,8 @@
 # 安装 ComfyUI —— 每条命令都是做什么的
 
-> 📌 **如果你已经安装了 ComfyUI**：打开终端执行 `ls ~/workspace/ComfyUI/main.py`，如果能看到文件，说明已安装。请跳到下一章[下载第一个模型](00-03-下载第一个模型并首次生成.md)。
+> 📌 **如果你已经安装了 ComfyUI**：打开终端执行 `dir %USERPROFILE%\workspace\ComfyUI\main.py`，如果能看到文件，说明已安装。请跳到下一章[下载第一个模型](00-03-下载第一个模型并首次生成.md)。
 >
-> 📌 **检查是否跑得起来**：`cd ~/workspace/ComfyUI && python main.py`，能出现 `Prompt server running on: http://0.0.0.0:8188` 就行。
+> 📌 **检查是否跑得起来**：`cd /d %USERPROFILE%\workspace\ComfyUI && python main.py`，能出现 `Prompt server running on: http://0.0.0.0:8188` 就行。
 
 这是本书最关键的步骤。跟着我一步一步来，**每完成一步，停下来看看终端里发生了什么**。
 
@@ -22,11 +22,11 @@
 建议放在用户目录下（这样权限问题最少）。我们把它放在桌面或工作目录下：
 
 ```bash
-cd ~/workspace
+cd /d %USERPROFILE%\workspace
 ```
 
-> 💡 这条命令的意思是"进入 workspace 目录"。`~` 代表你的用户主目录（Windows 下是 `C:\\Users\\你的用户名`）。
-> 如果 `workspace` 不存在，先创建：`mkdir ~\workspace`
+> 💡 这条命令的意思是"进入 workspace 目录"。`%USERPROFILE%` 代表你的用户主目录（即 `C:\Users\你的用户名`）。
+> 如果 `workspace` 不存在，先创建：`mkdir %USERPROFILE%\workspace`
 
 ### 第 3 步：从 GitHub 下载 ComfyUI 代码
 
@@ -58,12 +58,12 @@ git clone https://gitclone.com/github.com/comfyanonymous/ComfyUI.git
 cd ComfyUI
 ```
 
-> ✅ 验证：终端提示符前面应该变成类似 `~/workspace/ComfyUI` 字样
+> ✅ 验证：终端提示符前面应该变成类似 `%USERPROFILE%\workspace\ComfyUI` 字样
 
 ### 第 5 步：创建 Python 虚拟环境（非常重要！）
 
 ```bash
-python3 -m venv venv
+python -m venv venv
 ```
 
 **为什么需要虚拟环境？**
@@ -73,7 +73,7 @@ python3 -m venv venv
 - 删掉整个项目文件夹就卸载干净了
 
 **这条命令在做什么？**
-- `python3` = 调用 Python 3 解释器
+- `python` = 调用 Python 解释器
 - `-m venv` = 使用 Python 内置的 `venv` 模块
 - `venv` = 虚拟环境文件夹的名字（叫 `venv` 是惯例）
 
@@ -82,7 +82,7 @@ python3 -m venv venv
 ### 第 6 步：激活虚拟环境
 
 ```bash
-source venv/bin/activate
+venv\Scripts\activate
 ```
 
 **这条命令在做什么？**
@@ -153,7 +153,7 @@ Prompt server running on: http://0.0.0.0:8188
 
 ### 第 10 步：打开浏览器访问
 
-1. 打开浏览器（Chrome / Safari / Edge 都可以）
+1. 打开浏览器（Chrome / Edge 都可以）
 2. 在地址栏输入：`http://127.0.0.1:8188`（或 `http://localhost:8188`）
 3. 回车 → 你就看到了 ComfyUI 的画布界面！
 
@@ -217,7 +217,7 @@ comfy launch
 
 ```bash
 # 国内网络环境，设置镜像
-export HF_ENDPOINT=https://hf-mirror.com
+set HF_ENDPOINT=https://hf-mirror.com
 comfy install
 ```
 

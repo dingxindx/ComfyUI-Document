@@ -14,7 +14,7 @@ ComfyUI Manager 是一个自定义节点管理器，可以把它理解为 ComfyU
 
 ```bash
 # 进入 ComfyUI 的自定义节点目录
-cd ~/workspace/ComfyUI/custom_nodes/
+cd /d %USERPROFILE%\workspace\ComfyUI\custom_nodes\
 
 # 从 GitHub 克隆 Manager
 git clone https://github.com/ltdrdata/ComfyUI-Manager.git
@@ -25,8 +25,8 @@ git clone https://github.com/ltdrdata/ComfyUI-Manager.git
 
 **装完后重启 ComfyUI：**
 ```bash
-cd ~/workspace/ComfyUI
-source venv/bin/activate   # 激活虚拟环境（如果还没激活）
+cd /d %USERPROFILE%\workspace\ComfyUI
+venv\Scripts\activate
 python main.py             # 重启
 ```
 
@@ -99,7 +99,7 @@ python main.py             # 重启
 **解决**：
 ```bash
 # 手动进入节点目录安装依赖
-cd ~/workspace/ComfyUI/custom_nodes/你刚安装的节点
+cd /d %USERPROFILE%\workspace\ComfyUI\custom_nodes\你刚安装的节点
 pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 

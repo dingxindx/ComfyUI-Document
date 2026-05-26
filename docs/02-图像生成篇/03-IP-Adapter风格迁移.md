@@ -42,7 +42,7 @@
 ### 2.1 安装自定义节点
 
 ```bash
-cd ~/workspace/ComfyUI/custom_nodes/
+cd /d %USERPROFILE%\workspace\ComfyUI\custom_nodes\
 git clone https://gitclone.com/github.com/cubiq/ComfyUI_IPAdapter_plus.git
 ```
 
@@ -54,7 +54,7 @@ git clone https://gitclone.com/github.com/cubiq/ComfyUI_IPAdapter_plus.git
 
 ```bash
 # 设置 HuggingFace 镜像
-export HF_ENDPOINT=https://hf-mirror.com
+set HF_ENDPOINT=https://hf-mirror.com
 ```
 
 | 文件 | 版本 | 大小 | 存放路径 | 适用 checkpoint |

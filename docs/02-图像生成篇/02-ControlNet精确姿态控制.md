@@ -50,7 +50,7 @@ legs shoulder-width apart, head slightly tilted"
 ### 2.1 安装自定义节点
 
 ```bash
-cd ~/workspace/ComfyUI/custom_nodes/
+cd /d %USERPROFILE%\workspace\ComfyUI\custom_nodes\
 git clone https://gitclone.com/github.com/Fannovel16/comfyui_controlnet_aux.git
 pip install -r requirements.txt
 
@@ -64,7 +64,7 @@ pip install -r requirements.txt
 
 ```bash
 # 设置 HuggingFace 镜像
-export HF_ENDPOINT=https://hf-mirror.com
+set HF_ENDPOINT=https://hf-mirror.com
 
 # 或直接下载以下文件：
 ```

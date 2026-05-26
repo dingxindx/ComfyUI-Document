@@ -35,7 +35,7 @@
 ### 2.1 安装自定义节点
 
 ```bash
-cd ~/workspace/ComfyUI/custom_nodes/
+cd /d %USERPROFILE%\workspace\ComfyUI\custom_nodes\
 git clone https://gitclone.com/github.com/AIFSH/ComfyUI-ChatTTS.git
 
 # 国内 pip 镜像
@@ -53,7 +53,7 @@ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 > ⚠️ **国内网络**：如果首次运行自动下载失败（一般表现为节点全红），可以设置 HuggingFace 镜像：
 > ```bash
-> export HF_ENDPOINT=https://hf-mirror.com
+> set HF_ENDPOINT=https://hf-mirror.com
 > # 然后重启 ComfyUI
 > ```
 > 或者手动下载模型文件放入 `~/.cache/huggingface/hub/` 下。
