@@ -58,12 +58,16 @@ flowchart LR
 
 ### 常用放大模型选型
 
-| 模型名 | 倍数 | 适用 | 效果 |
-|:-------|:----:|:-----|:----:|
-| 4x-UltraSharp | 4× | 写实照片 | 清晰锐利，细节丰富 |
-| 4x_NMKD-Superscale-SP | 4× | 通用 | 自然，不过度锐化 |
-| 4x-AnimeSharp | 4× | 二次元/动漫 | 线条清晰，色彩鲜艳 |
-| 8x_NMKD-Superscale | 8× | 极大幅放大 | 适合超大分辨率需求 |
+| 模型名 | 倍数 | 显存 | 适用 | 效果 |
+|:-------|:----:|:----:|:-----|:-----|
+| **4x-UltraSharp** | 4× | ~1GB | 写实照片 | 清晰锐利，细节丰富 |
+| **4x_NMKD-Superscale-SP** | 4× | ~1GB | 通用 | 自然，不过度锐化 |
+| **8x_NMKD-Superscale** | 8× | ~1GB | 极大幅放大 | 适合超大分辨率需求 |
+| **4x-AnimeSharp** | 4× | ~500MB | 二次元/动漫 | 线条清晰，色彩鲜艳 |
+| **RealESRGAN_x4plus** | 4× | ~1GB | 写实照片 | 经典放大模型，泛化好 |
+| **RealESRGAN_x4plus_anime** | 4× | ~1GB | 二次元/动漫 | 专门针对动漫优化 |
+| **DAT_x2/x3/x4** | 2/3/4× | ~2GB | 通用（高质量） | Transformer 架构，细节保真度最高 |
+| **4x-LSDIR** | 4× | ~1.5GB | 高质量通用 | Lightweight SwinIR，轻量高效 |
 
 ---
 

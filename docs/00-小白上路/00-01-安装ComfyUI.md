@@ -173,6 +173,74 @@ Prompt server running on: http://0.0.0.0:8188
 
 ---
 
+## 方案 C：comfy-cli 官方安装工具（2026 推荐方案）
+
+> **comfy-cli** 是 ComfyUI 官方团队推出的命令行安装管理工具，比手动安装更简便，支持一键安装、更新、管理模型和节点。
+
+| 对比项 | 方案 A（手动） | 方案 C（comfy-cli） |
+|:-------|:--------------:|:-------------------:|
+| 安装步骤 | 10 步 | **3 步** |
+| 学习意义 | ✅ 理解底层原理 | ❌ 跳过细节 |
+| 更新维护 | 手动 git pull | `comfy update` 一键搞定 |
+| 模型管理 | 手动下载放置 | `comfy model download` |
+| 适合人群 | 想深入理解的新手 | **想快速上手的任何人** |
+
+### 安装步骤
+
+#### 第 1 步：安装 comfy-cli
+
+```bash
+pipx install comfy-cli
+```
+
+> 💡 如果提示 `pipx: command not found`，先装 pipx：
+> ```bash
+> # macOS
+> brew install pipx && pipx ensurepath
+> # Windows
+> winget install pipx
+> ```
+
+#### 第 2 步：一键安装 ComfyUI（含全部依赖）
+
+```bash
+comfy install
+```
+
+这条命令会自动完成：git clone → 创建 venv → 安装 PyTorch → 安装依赖。整个安装过程会自检测 CUDA/MPS 版本并安装正确的 PyTorch。
+
+#### 第 3 步：启动
+
+```bash
+comfy launch
+```
+
+> 启动后浏览器打开 `http://127.0.0.1:8188`
+
+### 常用 comfy-cli 命令
+
+| 命令 | 说明 |
+|:-----|:------|
+| `comfy install` | 全新安装 |
+| `comfy update` | 更新 ComfyUI 到最新版 |
+| `comfy launch` | 启动 ComfyUI 服务 |
+| `comfy run -- --cpu` | CPU 模式启动 |
+| `comfy node download <url>` | 下载自定义节点 |
+| `comfy model download <repo_id>` | 从 HuggingFace 下载模型 |
+| `comfy model list` | 列出已下载的模型 |
+
+### 国内镜像配置
+
+```bash
+# 国内网络环境，设置镜像
+export HF_ENDPOINT=https://hf-mirror.com
+comfy install
+```
+
+> 💡 **推荐**：新手也可以用 comfy-cli 安装，然后用本教程后续章节搭建工作流，两者不冲突。
+
+---
+
 ## 方案 B：ComfyUI Manager 一键安装（偷懒方案）
 
 如果你的目的是"最快速度用上"，用 ComfyUI Manager 可以跳过很多手动步骤。
