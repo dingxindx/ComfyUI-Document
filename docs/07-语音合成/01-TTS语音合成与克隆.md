@@ -308,9 +308,9 @@ ffmpeg -i your_video.mp4 -ss 00:00:05 -t 10 -vn -acodec pcm_s16le -ar 44100 refe
 | 🔴 **Save Audio 保存后播放失败** | 文件损坏或格式不兼容 | 输出格式选 `.wav` |
 | 🔴 **Load Audio 找不到文件** | 文件路径包含中文或特殊字符 | 放到简单路径如 `~/Downloads/ref.wav` |
 | 🔴 **克隆的声音有"金属感"** | 参考音频太短或压缩过度 | 换 5-10 秒无损 WAV 参考 |
-| 🔴 **生成速度很慢** | 文本太长或 CPU 模式运行 | 分短文本或确认 ComfyUI 使用了 GPU/MPS |
+| 🔴 **生成速度很慢** | 文本太长或 CPU 模式运行 | 分短文本或确认 ComfyUI 使用了 GPU |
 | | 🔴 **<laugh/> 等标签没生效** | ChatTTS 版本较旧 | 更新 ComfyUI-ChatTTS 插件 |
-| 🔴 **ComfyUI-ChatTTS 安装报 pip 依赖错误** | 缺少编译工具 | macOS: `xcode-select --install` |
+| 🔴 **ComfyUI-ChatTTS 安装报 pip 依赖错误** | 缺少编译工具 | Windows 需要安装 Microsoft C++ Build Tools |
 
 ---
 

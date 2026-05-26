@@ -12,11 +12,10 @@
 
 ### 第 1 步：打开终端
 
-**macOS**：Command + 空格 → 输入"终端" → 回车
 **Windows**：Win + R → 输入 `cmd` → 回车 → 或搜索"PowerShell"
 **Linux**：Ctrl + Alt + T
 
-> 📌 **你的操作系统**：macOS。以下命令以 macOS 为例，Windows 用户注意括号中的替代方案。
+> 📌 **本书以 Windows 11 为例**，Linux 用户注意括号中的替代方案。
 
 ### 第 2 步：决定 ComfyUI 装在哪里
 
@@ -26,8 +25,8 @@
 cd ~/workspace
 ```
 
-> 💡 这条命令的意思是"进入 workspace 目录"。`~` 代表你的用户主目录（即 `/Users/bruce.ding`）。
-> 如果 `workspace` 不存在，先创建：`mkdir -p ~/workspace`
+> 💡 这条命令的意思是"进入 workspace 目录"。`~` 代表你的用户主目录（Windows 下是 `C:\\Users\\你的用户名`）。
+> 如果 `workspace` 不存在，先创建：`mkdir ~\workspace`
 
 ### 第 3 步：从 GitHub 下载 ComfyUI 代码
 
@@ -59,7 +58,7 @@ git clone https://gitclone.com/github.com/comfyanonymous/ComfyUI.git
 cd ComfyUI
 ```
 
-> ✅ 验证：终端提示符前面应该变成类似 `~/workspace/ComfyUI %` 或 `(base) bruce.ding@Mac ComfyUI %`
+> ✅ 验证：终端提示符前面应该变成类似 `~/workspace/ComfyUI` 字样
 
 ### 第 5 步：创建 Python 虚拟环境（非常重要！）
 
@@ -80,16 +79,6 @@ python3 -m venv venv
 
 执行完后，`ComfyUI/` 目录下会出现一个 `venv/` 文件夹，里面装了一个独立的 Python 副本。
 
-> ⚠️ **macOS 你可能遇到的情况**：如果你用 Homebrew 装的 Python，这步会正常工作。如果你用的是 Conda（`/opt/anaconda3`），虚拟环境会基于 Conda 的 Python 版本创建。
->
-> 💡 **Conda 用户专属提示**：如果你习惯用 conda 环境，可以跳过 venv，直接用：
-> ```bash
-> # 创建并激活 conda 环境
-> conda create -n comfyui python=3.11
-> conda activate comfyui
-> ```
-> 后续所有 `pip install` 和 `python main.py` 在 conda 环境下执行即可。用 `which python` 确认当前使用的是 conda 路径而不是系统 Python。
-
 ### 第 6 步：激活虚拟环境
 
 ```bash
@@ -100,26 +89,18 @@ source venv/bin/activate
 - 告诉终端：从现在开始，所有 Python 相关的操作都在 `venv` 这个小房间里进行
 - 激活成功后，终端提示符前面会出现 `(venv)`
 
-> ✅ 验证：你应该看到类似 `(venv) bruce.ding@Mac ComfyUI %` 的字样。
->
-> ⚠️ 如果你用的是 Conda，且不想用 `venv`，可以直接：`conda activate comfyui`（假设你创建了同名的 conda 环境）
+> ✅ 验证：你应该看到类似 `(venv)` 的字样。
 
 ### 第 7 步：安装 PyTorch（AI 计算的底层框架）
 
-**对于 macOS（你）：**
+**你的 RTX 4070 Ti Super 需要 CUDA 版本：**
 ```bash
-# macOS 默认没有 NVIDIA 显卡，所以装 CPU 版本或 MPS 版本
-pip install torch torchvision torchaudio
-```
-
-**对于 Windows/Linux 有 NVIDIA 显卡的用户：**
-```bash
-# CUDA 12.1（推荐）
+# CUDA 12.1（推荐，兼容你的显卡）
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 ```
 
 **为什么这一步单独做？**
-PyTorch 是 ComfyUI 的"引擎"（做 AI 计算的核心库）。它有不同版本（CPU 版 / CUDA 版 / MPS 版），需要根据你的硬件选择。如果把这步放到后面的 `requirements.txt` 一起装，可能会装错版本。
+PyTorch 是 ComfyUI 的"引擎"（做 AI 计算的核心库）。它有不同版本（CPU 版 / CUDA 版），需要根据你的硬件选择。如果把这步放到后面的 `requirements.txt` 一起装，可能会装错版本。
 
 ### 第 8 步：安装 ComfyUI 的其他依赖
 
@@ -162,7 +143,7 @@ python main.py
 ```
 Starting ComfyUI Server...
 Total VRAM ... GB, total RAM ... GB
-Using device: mps (macOS) 或 cuda (NVIDIA)
+Using device: cuda (NVIDIA RTX 4070 Ti Super)
 Prompt server running on: http://0.0.0.0:8188
 ```
 
@@ -200,8 +181,6 @@ pipx install comfy-cli
 
 > 💡 如果提示 `pipx: command not found`，先装 pipx：
 > ```bash
-> # macOS
-> brew install pipx && pipx ensurepath
 > # Windows
 > winget install pipx
 > ```
@@ -212,7 +191,7 @@ pipx install comfy-cli
 comfy install
 ```
 
-这条命令会自动完成：git clone → 创建 venv → 安装 PyTorch → 安装依赖。整个安装过程会自检测 CUDA/MPS 版本并安装正确的 PyTorch。
+这条命令会自动完成：git clone → 创建 venv → 安装 PyTorch → 安装依赖。整个过程会自动检测 CUDA 版本并安装正确的 PyTorch。
 
 #### 第 3 步：启动
 
@@ -266,7 +245,6 @@ comfy install
 **表现**：安装到中间报红
 **解决**：看错误信息最后几行。常见原因是：
 - 网络超时 → 使用国内镜像重试
-- 缺少编译器 → macOS 需要安装 Xcode Command Line Tools：`xcode-select --install`
 - 版本冲突 → 创建一个全新的虚拟环境重新开始
 
 ### 问题 3：启动时端口被占用
