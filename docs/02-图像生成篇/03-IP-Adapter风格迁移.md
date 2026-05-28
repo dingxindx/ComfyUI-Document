@@ -24,18 +24,9 @@
 | 🧑 **身份保持** | 一张人像照片 | 新生成的图片人脸特征与参考人一致 | 换脸、保持角色一致性 |
 | 📦 **内容迁移** | 一张产品/物品图 | 新内容保留原图的"内容特征" | 衣服图案迁移、产品设续 |
 
-### IP-Adapter 和 ControlNet / LoRA 对比
+> 💡 **想知道 IP-Adapter 与其他技术的对比？** → 详见 [技术选型与组合参考](00-技术选型与组合参考.md#一controlnet-vs-ip-adapter-vs-lora-技术对比)
 
-| 技术 | 控制内容 | 需不需要训练 | 修改哪个数据流 | 文件大小 |
-|:-----|:---------|:------------:|:--------------:|:--------:|
-| **ControlNet** | 姿态/轮廓/深度结构 | 不用训练 | conditioning（橙色） | ~1.5GB |
-| **IP-Adapter** | 风格/身份/材质 | **不用训练** | model（紫色） | ~100MB |
-| **LoRA** | 角色/画风/对象概念 | 需预训练（别人已训好） | model（紫色） | ~30-150MB |
-| **Textual Inversion** | 单一概念/角色 | 需训练（加载小嵌入） | conditioning（橙色） | ~10-50KB |
-
-> **关键词**：IP-Adapter 是"即插即用"的。不像 LoRA 需要专门下载某个角色的 LoRA，IP-Adapter 你给任何一张参考图都能做。这是它最大的优势。
-
----
+---|---
 
 ## 二、前置准备——安装节点和下载模型
 
@@ -320,25 +311,11 @@ CheckpointLoader.MODEL → IPAdapterApply #1 (style A, weight=0.6)
 
 ### 7.2 IP-Adapter + ControlNet 共存
 
-```
-模型流：
-CheckpointLoader.MODEL → IPAdapterApply → KSampler.model
-
-Conditioning 流：
-CLIP Text → Apply ControlNet (OpenPose) → KSampler.positive
-```
-
-两者可以独立使用，因为作用于不同数据流。
+> 💡 ControlNet 改 conditioning（橙色），IP-Adapter 改 model（紫色）→ 两者作用于不同数据流，互不冲突。详见 [组合共存接线方案](00-技术选型与组合参考.md#三组合共存接线方案)。
 
 ### 7.3 IP-Adapter + LoRA 共存
 
-```
-CheckpointLoader.MODEL → Load LoRA (角色) → IPAdapterApply
-                                                 ↓
-                                            KSampler.model
-```
-
-顺序有讲究：LoRA 先加载（建立角色特征），IP-Adapter 再注入风格。如果反过来，LoRA 会覆盖掉 IP-Adapter 的风格。
+> 💡 LoRA 在先（建立角色特征），IP-Adapter 在后（注入风格）。详见 [组合共存接线方案](00-技术选型与组合参考.md#三组合共存接线方案)。
 
 ### 7.4 人脸身份保持
 
@@ -385,22 +362,11 @@ CheckpointLoader.MODEL → Load LoRA (角色) → IPAdapterApply
 
 ---
 
-## 九、IP-Adapter vs ControlNet vs LoRA 选型总结
-
-| 你想达到什么效果 | 推荐工具 | 补充说明 |
-|:-----------------|:---------|:---------|
-| 人物摆特定姿势 | **ControlNet (OpenPose)** | 不需要参考图风格 |
-| 画面按指定构图布局 | **ControlNet (Canny/Depth)** | 保留场景轮廓/深度 |
-| 把一张图的美术风格迁移到新图 | **IP-Adapter (style_transfer)** | 即插即用，最方便 |
-| 保持人脸保持一致 | **IP-Adapter (face model)** | 最好用正面清晰照片 |
-| 固定角色特征（脸+服装+画风） | **LoRA** | 需要提前下载/训练 |
-| 同时控制姿势和风格 | **IP-Adapter + ControlNet** | 兼容，互不冲突 |
-| 在风格基础上固定角色特征 | **LoRA + IP-Adapter** | LoRA 先加载 |
-| 从一张图提取"感觉"迁移到另一张 | **IP-Adapter** | 最擅长这个 |
+> 💡 **想知道 IP-Adapter 与其他技术如何选型和共存？** → [技术选型与组合参考](00-技术选型与组合参考.md)
 
 ---
 
-## 十、检查清单
+## 九、检查清单
 
 在点击 Queue Prompt 前确认：
 

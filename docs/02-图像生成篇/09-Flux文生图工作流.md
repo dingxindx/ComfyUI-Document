@@ -269,18 +269,7 @@ Black Forest Labs 在 2026年2月发布了 FLUX.2，主要变化：
 
 ## 六、Flux vs SDXL 参数对照表
 
-| 方面 | SDXL | Flux |
-|:-----|:-----|:------|
-| loading | CheckpointLoaderSimple（一体） | DualCLIPLoader + UNETLoader + VAELoader（三分体） |
-| 文本长度 | 77 tokens | 256 tokens |
-| steps | 20-30 | 20-30 (dev) / 4-8 (schnell) |
-| CFG | 7.0 | **1.0**（用 FluxGuidance 替代） |
-| negative prompt | 很重要 | **效果微弱** |
-| scheduler | normal / karras | **必须 sgm_uniform** |
-| 分辨率规则 | 64 倍数 | **16 倍数** |
-| 推荐分辨率 | 1024×1024 | 1024×1024 |
-| 中文 prompt | 差 | 好（T5 多语言） |
-| LoRA 生态 | 非常丰富 | 快速增长中 |
+> 💡 SDXL 与 Flux 的完整参数对照见 [技术选型与组合参考 §四](00-技术选型与组合参考.md#42-flux-vs-sdxl-参数对照)。
 
 ---
 

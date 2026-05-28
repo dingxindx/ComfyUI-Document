@@ -421,27 +421,11 @@ CLIP Text (正面) → Apply ControlNet (OpenPose, strength=0.8)
 | 🏃 **动作场景双控** | OpenPose + Canny | 0.8+0.5 | 0.0 | 0.7(Canny) | 30 | 7 |
 | 🫸 **只参考构图不锁死** | Canny | 0.4 | 0.0 | 0.6 | 20 | 9 |
 | 🎬 **照片转真人画风** | OpenPose | 0.8 | 0.0 | 1.0 | 25 | 7 |
-| 🎭 **换脸保留姿势** | OpenPose | 1.0 | 0.0 | 1.0 | 30 | 7 |
+| 🔴 **OpenPose 和 Canny 冲突** | 两者 strength 都太高 | 降低 Canny 的 strength 到 0.4，给 OpenPose 让步 |
 
 ---
 
-## 八、ControlNet + LoRA / IP-Adapter 组合
-
-| 技术 | 影响维度 | 能否共存 | 共存方式 |
-|:-----|:---------|:--------:|:---------|
-| **ControlNet** | 姿态/轮廓/深度 | ✅ | 修改 conditioning（橙色）|
-| **LoRA** | 画风/角色特征 | ✅ | 修改 model（紫色） |
-| **IP-Adapter** | 风格/质感 | ✅ | 修改 model（紫色）|
-
-**实际连线示例**（ControlNet + LoRA）：
-
-```
-CheckpointLoaderSimple
-    ├── MODEL → Load LoRA (角色) → Load LoRA (风格) → KSampler.model
-    └── CLIP → CLIP Text Encode → Apply ControlNet → KSampler.positive
-```
-
-因为 ControlNet 和 LoRA 影响的是不同的端口（controlnet = conditioning / orange, lora = model / purple），所以它们完全独立，不冲突。
+> 💡 **想知道 ControlNet 和其他技术如何选型和共存？** → [技术选型与组合参考](00-技术选型与组合参考.md)
 
 ---
 
@@ -464,21 +448,11 @@ CheckpointLoaderSimple
 
 ---
 
-## 十、ControlNet 与 IP-Adapter / LoRA 对比——什么时候用什么？
-
-| 你需要 | 用哪个 |
-|:-------|:-------|
-| 人物摆特定姿势 | **ControlNet (OpenPose)** ✅ |
-| 画面按指定构图布局 | **ControlNet (Canny / Depth)** ✅ |
-| 换衣服/换脸/保持内容改风格 | **IP-Adapter** |
-| 固定角色特征/画风 | **LoRA** |
-| 同时控制姿势和风格 | **ControlNet + LoRA** ✅（不冲突） |
-| 从一张图提取"味道"迁移到另一张 | **IP-Adapter** |
-| 严格控制场景三维结构 | **ControlNet (Depth)** ✅ |
+> 💡 **想知道 ControlNet 与其他技术（IP-Adapter、LoRA）如何选型？** → [技术选型与组合参考](00-技术选型与组合参考.md)
 
 ---
 
-## 十一、检查清单
+## 十、检查清单
 
 在点击 Queue Prompt 前确认：
 
