@@ -269,6 +269,7 @@ Prompt: a photo of a cat sitting on a table
 参考图的"内容"（猫） + prompt 的"内容"（猫）→ 参考图和 prompt 内容一致 → 风格迁移效果最好
 
 **策略 B：改变内容保留风格**（用梵高星空→画一座城市）
+
 ```
 Prompt: a busy city street at night, starry sky, swirling clouds, vibrant colors, van gogh style
 ```
