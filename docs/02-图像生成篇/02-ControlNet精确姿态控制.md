@@ -202,7 +202,66 @@ Depth 有两种主流方式：
 | MiDaS | MiDaS Depth Approximation | 速度快，通用 | 大多数场景 |
 | Zepth | Zepth | 更精细 | 复杂室内场景 |
 
-### 4.5 ControlNetLoader（加载 ControlNet 模型）
+### 4.5 MoGe：3D 几何估计——从单张图到三维点云（ComfyUI v0.22.0+）
+
+> **MoGe**（Monocular Geometry Estimation）是微软开源的 3D 几何估计算法，**从单张 2D 图片**直接推断出三维深度和点云。ComfyUI v0.22.0 将其内置为核心节点。
+
+#### MoGe 能做什么？
+
+| 场景 | 说明 |
+|:-----|:------|
+| **3D 深度估计** | 给一张图，输出每个像素的 3D 坐标（点云），比传统 Depth 更精确 |
+| **全景球面推理** | 支持 equirectangular 全景图的 12 视图 icosahedron 拆分 + 多尺度泊松缝合 |
+| **点云转网格** | 内置 `point-map-to-mesh` 节点，一键生成 3D 网格 |
+| **三维控制** | 深度图的精度远超传统 MiDaS/DPT，可用于高质量 Depth ControlNet |
+
+#### 内置节点一览（无需自定义节点）
+
+| 节点名 | 功能 |
+|:-------|:------|
+| **MoGeLoader** | 加载 MoGe 模型（复用 ComfyUI 内置的 DINOv2 backbone） |
+| **MoGePerspectiveInference** | 标准透视投影推理，输出深度图 + 点云 |
+| **MoGeEquirectangularInference** | 全景球面投影推理（12 视图拆分） |
+| **MoGeRender** | 渲染深度图/法线图/3D 视图 |
+| **MoGePointMapToMesh** | 将点云转换为网格模型 |
+
+#### 基本使用流程
+
+```mermaid
+flowchart LR
+    LI[Load Image<br/>原图] --> MP[MoGePerspectiveInference<br/>几何估计]
+    ML[MoGeLoader<br/>加载模型] --> MP
+    MP --> MR[MoGeRender<br/>渲染深度图]
+    MP --> PM[MoGePointMapToMesh<br/>点云→网格]
+    MR --> SI[Save Image<br/>保存深度图]
+```
+
+#### 典型组合：MoGe 深度图 + ControlNet
+
+```mermaid
+flowchart LR
+    LI[Load Image] --> MP[MoGePerspectiveInference]
+    ML[MoGeLoader] --> MP
+    MP --> MR[MoGeRender]
+    MR -->|深度图| PRE[Depth Preprocessor<br/>或直接作为ControlNet输入]
+    PRE --> CN[Apply ControlNet]
+```
+
+> 💡 **什么时候用 MoGe 而不是传统 Depth ControlNet？**
+> - 需要**高精度三维结构** → MoGe 的深度图精度远超传统 Depth 预处理器
+> - 需要**3D 导出**（点云/网格）→ MoGe 内置导出节点
+> - 只是简单控制构图 → 传统 Depth ControlNet 就够了（更快更省显存）
+
+| 对比 | ControlNet Depth (MiDaS/DPT) | MoGe |
+|:-----|:----------------------------:|:----:|
+| 深度精度 | 中等 | **高** |
+| 3D 点云输出 | ❌ | ✅ |
+| 全景支持 | ❌ | ✅ |
+| 速度 | 快 | 中等（需加载额外模型） |
+| 显存占用 | ~500MB | ~1.5GB |
+| 适用场景 | 日常构图控制 | 高质量三维重建/3D 生成 |
+
+### 4.6 ControlNetLoader（加载 ControlNet 模型）
 
 | 参数 | 说明 |
 |:-----|:------|
@@ -416,65 +475,6 @@ CheckpointLoaderSimple
 | 同时控制姿势和风格 | **ControlNet + LoRA** ✅（不冲突） |
 | 从一张图提取"味道"迁移到另一张 | **IP-Adapter** |
 | 严格控制场景三维结构 | **ControlNet (Depth)** ✅ |
-
-## 十、MoGe：3D 几何估计——从单张图到三维点云（ComfyUI v0.22.0+）
-
-> **MoGe**（Monocular Geometry Estimation）是微软开源的 3D 几何估计算法，**从单张 2D 图片**直接推断出三维深度和点云。ComfyUI v0.22.0 将其内置为核心节点。
-
-### MoGe 能做什么？
-
-| 场景 | 说明 |
-|:-----|:------|
-| **3D 深度估计** | 给一张图，输出每个像素的 3D 坐标（点云），比传统 Depth 更精确 |
-| **全景球面推理** | 支持 equirectangular 全景图的 12 视图 icosahedron 拆分 + 多尺度泊松缝合 |
-| **点云转网格** | 内置 `point-map-to-mesh` 节点，一键生成 3D 网格 |
-| **三维控制** | 深度图的精度远超传统 MiDaS/DPT，可用于高质量 Depth ControlNet |
-
-### 内置节点一览（无需自定义节点）
-
-| 节点名 | 功能 |
-|:-------|:------|
-| **MoGeLoader** | 加载 MoGe 模型（复用 ComfyUI 内置的 DINOv2 backbone） |
-| **MoGePerspectiveInference** | 标准透视投影推理，输出深度图 + 点云 |
-| **MoGeEquirectangularInference** | 全景球面投影推理（12 视图拆分） |
-| **MoGeRender** | 渲染深度图/法线图/3D 视图 |
-| **MoGePointMapToMesh** | 将点云转换为网格模型 |
-
-### 基本使用流程
-
-```mermaid
-flowchart LR
-    LI[Load Image<br/>原图] --> MP[MoGePerspectiveInference<br/>几何估计]
-    ML[MoGeLoader<br/>加载模型] --> MP
-    MP --> MR[MoGeRender<br/>渲染深度图]
-    MP --> PM[MoGePointMapToMesh<br/>点云→网格]
-    MR --> SI[Save Image<br/>保存深度图]
-```
-
-### 典型组合：MoGe 深度图 + ControlNet
-
-```mermaid
-flowchart LR
-    LI[Load Image] --> MP[MoGePerspectiveInference]
-    ML[MoGeLoader] --> MP
-    MP --> MR[MoGeRender]
-    MR -->|深度图| PRE[Depth Preprocessor<br/>或直接作为ControlNet输入]
-    PRE --> CN[Apply ControlNet]
-```
-
-> 💡 **什么时候用 MoGe 而不是传统 Depth ControlNet？**
-> - 需要**高精度三维结构** → MoGe 的深度图精度远超传统 Depth 预处理器
-> - 需要**3D 导出**（点云/网格）→ MoGe 内置导出节点
-> - 只是简单控制构图 → 传统 Depth ControlNet 就够了（更快更省显存）
-
-| 对比 | ControlNet Depth (MiDaS/DPT) | MoGe |
-|:-----|:----------------------------:|:----:|
-| 深度精度 | 中等 | **高** |
-| 3D 点云输出 | ❌ | ✅ |
-| 全景支持 | ❌ | ✅ |
-| 速度 | 快 | 中等（需加载额外模型） |
-| 显存占用 | ~500MB | ~1.5GB |
-| 适用场景 | 日常构图控制 | 高质量三维重建/3D 生成 |
 
 ---
 
